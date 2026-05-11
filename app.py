@@ -18,8 +18,40 @@ html, body { background-color: #ffffff !important; color: #1a1a1a !important; }
 .block-container { background-color: #ffffff !important; }
 [data-testid="stHeader"] { background-color: #ffffff !important; }
 
-/* ── Fuente global ── */
+/* ── Fuente global + texto oscuro en área principal ── */
 html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
+
+/* Títulos y texto general en el área principal */
+.main h1, .main h2, .main h3, .main h4, .main h5 {
+    color: #1a1a1a !important;
+}
+.main p, .main span, .main label, .main small, .main li {
+    color: #1a1a1a !important;
+}
+/* Tabs */
+[data-testid="stTabs"] [data-baseweb="tab"] {
+    color: #1a1a1a !important;
+}
+[data-testid="stTabs"] [aria-selected="true"] {
+    color: #003820 !important;
+    font-weight: 600 !important;
+}
+/* Selectbox y text_input labels */
+[data-testid="stSelectbox"] label,
+[data-testid="stTextInput"] label,
+[data-testid="stMultiSelect"] label {
+    color: #1a1a1a !important;
+}
+/* Markdown general fuera del sidebar */
+.main .stMarkdown p,
+.main .stMarkdown h1,
+.main .stMarkdown h2,
+.main .stMarkdown h3,
+.main .stMarkdown span {
+    color: #1a1a1a !important;
+}
+/* Info y warning boxes */
+[data-testid="stAlert"] p { color: #1a1a1a !important; }
 
 /* ── Sidebar: fondo verde, texto blanco SOLO dentro del sidebar ── */
 [data-testid="stSidebar"] {
@@ -273,20 +305,20 @@ def mostrar_dashboard(aprendiz, res, todos_aprendices, todos_resultados):
 
     st.markdown('<hr class="sena-divider">', unsafe_allow_html=True)
 
-    st.markdown("#### 📊 Distribución de evidencias")
+    st.markdown("<h4 style='color:#1a1a1a;font-weight:600;'>📊 Distribución de evidencias</h4>", unsafe_allow_html=True)
     cd,cb2,cg = st.columns([1.2,1.2,1])
     with cd:
-        st.markdown("**Dona por estado**")
+        st.markdown("<p style='color:#1a1a1a;font-weight:600;margin-bottom:4px;'>Dona por estado</p>", unsafe_allow_html=True)
         st.plotly_chart(fig_dona(res), use_container_width=True, config={'displayModeBar':False})
     with cb2:
-        st.markdown("**Conteo por categoría**")
+        st.markdown("<p style='color:#1a1a1a;font-weight:600;margin-bottom:4px;'>Conteo por categoría</p>", unsafe_allow_html=True)
         st.plotly_chart(fig_barras(res), use_container_width=True, config={'displayModeBar':False})
     with cg:
-        st.markdown("**Velocímetro**")
+        st.markdown("<p style='color:#1a1a1a;font-weight:600;margin-bottom:4px;'>Velocímetro</p>", unsafe_allow_html=True)
         st.plotly_chart(fig_gauge(pct,cb), use_container_width=True, config={'displayModeBar':False})
 
     st.markdown('<hr class="sena-divider">', unsafe_allow_html=True)
-    st.markdown("#### 📈 Posición en el grupo")
+    st.markdown("<h4 style='color:#1a1a1a;font-weight:600;'>📈 Posición en el grupo</h4>", unsafe_allow_html=True)
     promedio = sum(r['porcentaje'] for r in todos_resultados)/len(todos_resultados)
     diff = pct - promedio
     color_d = '#28a745' if diff>=0 else '#dc3545'
@@ -378,7 +410,7 @@ critico  =sum(1 for r in resultados if '🔴' in r['clasificacion'])
 pendiente=sum(1 for r in resultados if '⏳' in r['clasificacion'])
 
 st.markdown('<hr class="sena-divider">', unsafe_allow_html=True)
-st.markdown("### 📊 Resumen del grupo")
+st.markdown("<h3 style='color:#1a1a1a;font-weight:700;margin-bottom:16px;'>📊 Resumen del grupo</h3>", unsafe_allow_html=True)
 c1,c2,c3,c4,c5=st.columns(5)
 with c1:
     st.markdown(f'''<div class="stat-card" style="border-left:4px solid #003820;">
@@ -413,7 +445,7 @@ tab1,tab2,tab3=st.tabs(["📋 Reporte general","🔍 Dashboard por aprendiz","�
 
 # TAB 1
 with tab1:
-    st.markdown("### Listado completo")
+    st.markdown("<h3 style='color:#1a1a1a;font-weight:700;margin-bottom:16px;'>Listado completo de aprendices</h3>", unsafe_allow_html=True)
     cf1,cf2=st.columns([2,1])
     with cf1: ft=st.text_input("🔎 Filtrar por nombre",placeholder="Escribe un nombre...")
     with cf2: fe=st.selectbox("Estado",["Todos","✅ Al día","⏳ Pendientes","⚠️ En riesgo","🔴 Crítico"])
@@ -429,7 +461,7 @@ with tab1:
 
 # TAB 2
 with tab2:
-    st.markdown("### Dashboard individual")
+    st.markdown("<h3 style='color:#1a1a1a;font-weight:700;margin-bottom:16px;'>🔍 Dashboard individual</h3>", unsafe_allow_html=True)
     nombres_lista=[a['nombre'] for a in aprendices]
     nombre_sel=st.selectbox("Selecciona un aprendiz",nombres_lista)
     st.markdown("<small style='color:#6c757d;'>O busca por documento:</small>",unsafe_allow_html=True)
@@ -444,7 +476,7 @@ with tab2:
 
 # TAB 3
 with tab3:
-    st.markdown("### Descargar reporte")
+    st.markdown("<h3 style='color:#1a1a1a;font-weight:700;margin-bottom:16px;'>📥 Descargar reporte en Excel</h3>", unsafe_allow_html=True)
     filas=[{'Nombre':a['nombre'],'Documento':a['documento'],'Correo':a['correo'],
             'Último ingreso':a['ultimo_ingreso'],'Aprobadas':r['aprobadas'],
             'No aprobadas':r['no_aprobadas'],'Sin calificar':r['sin_calificar'],
