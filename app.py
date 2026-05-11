@@ -142,6 +142,10 @@ def clasificar_aprendiz(evidencias):
             'sin_calificar':sin_calificar,'sin_entrega':sin_entrega,'porcentaje':pct}
 
 # ── Gráficas ────────────────────────────────────────────────
+# Color base para todos los textos de gráficas
+TEXT_COLOR  = '#1a1a1a'
+FONT_FAMILY = 'Inter'
+
 def fig_dona(res):
     fig = go.Figure(go.Pie(
         labels=['Aprobadas','No Aprobadas','Sin Calificar','Sin Entrega'],
@@ -149,18 +153,26 @@ def fig_dona(res):
         hole=.65,
         marker=dict(colors=['#28a745','#dc3545','#ffc107','#adb5bd'],
                     line=dict(color='white',width=2)),
-        textinfo='percent', textfont=dict(size=12,family='Inter'),
+        textinfo='percent',
+        textfont=dict(size=12, family=FONT_FAMILY, color=TEXT_COLOR),
         hovertemplate='<b>%{label}</b><br>%{value} evidencias<br>%{percent}<extra></extra>',
     ))
     fig.add_annotation(
         text=f"<b>{res['porcentaje']:.0f}%</b><br><span style='font-size:11px'>aprobación</span>",
-        x=0.5,y=0.5,font=dict(size=18,color='#003820',family='Inter'),
-        showarrow=False,align='center')
-    fig.update_layout(showlegend=True,
-        legend=dict(orientation='h',yanchor='bottom',y=-0.3,xanchor='center',x=0.5,
-                    font=dict(size=11,family='Inter')),
-        margin=dict(t=10,b=50,l=10,r=10),height=280,
-        paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)')
+        x=0.5, y=0.5,
+        font=dict(size=18, color='#003820', family=FONT_FAMILY),
+        showarrow=False, align='center')
+    fig.update_layout(
+        showlegend=True,
+        legend=dict(
+            orientation='h', yanchor='bottom', y=-0.35,
+            xanchor='center', x=0.5,
+            font=dict(size=11, family=FONT_FAMILY, color=TEXT_COLOR),
+        ),
+        margin=dict(t=10, b=60, l=10, r=10), height=300,
+        paper_bgcolor='#ffffff', plot_bgcolor='#ffffff',
+        font=dict(color=TEXT_COLOR, family=FONT_FAMILY),
+    )
     return fig
 
 def fig_barras(res):
@@ -169,54 +181,88 @@ def fig_barras(res):
         y=['Aprobadas','Sin Calificar','No Aprobadas','Sin Entrega'],
         orientation='h',
         marker=dict(color=['#28a745','#ffc107','#dc3545','#adb5bd'],
-                    line=dict(color='white',width=1)),
+                    line=dict(color='white', width=1)),
         text=[res['aprobadas'],res['sin_calificar'],res['no_aprobadas'],res['sin_entrega']],
-        textposition='outside', textfont=dict(size=13,family='Inter',color='#333'),
+        textposition='outside',
+        textfont=dict(size=13, family=FONT_FAMILY, color=TEXT_COLOR),
         hovertemplate='<b>%{y}</b>: %{x}<extra></extra>',
     ))
-    fig.update_layout(margin=dict(t=10,b=10,l=10,r=40),height=220,
-        paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)',
-        xaxis=dict(showgrid=True,gridcolor='#f0f0f0',zeroline=False),
-        yaxis=dict(showgrid=False,tickfont=dict(size=12,family='Inter')),bargap=.35)
+    fig.update_layout(
+        margin=dict(t=10, b=10, l=10, r=50), height=230,
+        paper_bgcolor='#ffffff', plot_bgcolor='#ffffff',
+        font=dict(color=TEXT_COLOR, family=FONT_FAMILY),
+        xaxis=dict(showgrid=True, gridcolor='#eeeeee', zeroline=False,
+                   tickfont=dict(size=11, color=TEXT_COLOR)),
+        yaxis=dict(showgrid=False,
+                   tickfont=dict(size=12, family=FONT_FAMILY, color=TEXT_COLOR)),
+        bargap=.35,
+    )
     return fig
 
 def fig_gauge(pct, color):
     fig = go.Figure(go.Indicator(
-        mode='gauge+number', value=round(pct,1),
-        number=dict(suffix='%',font=dict(size=36,color=color,family='Inter')),
+        mode='gauge+number', value=round(pct, 1),
+        number=dict(suffix='%', font=dict(size=36, color=color, family=FONT_FAMILY)),
         gauge=dict(
-            axis=dict(range=[0,100],tickwidth=1,tickcolor='#ddd',
-                      tickfont=dict(size=10,family='Inter')),
-            bar=dict(color=color,thickness=0.25),bgcolor='white',borderwidth=0,
-            steps=[dict(range=[0,50],color='#fdf0f0'),dict(range=[50,70],color='#fffbea'),
-                   dict(range=[70,90],color='#edf6ea'),dict(range=[90,100],color='#d4edda')],
-            threshold=dict(line=dict(color='#003820',width=3),thickness=0.8,value=pct),
+            axis=dict(range=[0,100], tickwidth=1, tickcolor='#999',
+                      tickfont=dict(size=10, family=FONT_FAMILY, color=TEXT_COLOR)),
+            bar=dict(color=color, thickness=0.25),
+            bgcolor='white', borderwidth=0,
+            steps=[
+                dict(range=[0,  50], color='#fdf0f0'),
+                dict(range=[50, 70], color='#fffbea'),
+                dict(range=[70, 90], color='#edf6ea'),
+                dict(range=[90,100], color='#d4edda'),
+            ],
+            threshold=dict(line=dict(color='#003820',width=3), thickness=0.8, value=pct),
         )))
-    fig.update_layout(margin=dict(t=20,b=10,l=20,r=20),height=220,
-        paper_bgcolor='rgba(0,0,0,0)')
+    fig.update_layout(
+        margin=dict(t=20, b=10, l=20, r=20), height=230,
+        paper_bgcolor='#ffffff',
+        font=dict(color=TEXT_COLOR, family=FONT_FAMILY),
+    )
     return fig
 
 def fig_comparativa(nombre_sel, aprendices, resultados):
     nombres = [a['nombre'].split()[0]+' '+a['nombre'].split()[-1] for a in aprendices]
     porcs   = [r['porcentaje'] for r in resultados]
-    colores = ['#003820' if a['nombre']==nombre_sel else '#c8e6c9' for a in aprendices]
-    pares   = sorted(zip(nombres,porcs,colores),key=lambda x:x[1],reverse=True)
-    n,p,c   = zip(*pares)
+    colores = ['#003820' if a['nombre']==nombre_sel else '#81C784' for a in aprendices]
+    pares   = sorted(zip(nombres,porcs,colores), key=lambda x:x[1], reverse=True)
+    n, p, c = zip(*pares)
+    # Color de texto de cada barra: blanco si es la seleccionada, oscuro si no
+    text_colors = ['#ffffff' if col=='#003820' else TEXT_COLOR for col in c]
     fig = go.Figure(go.Bar(
-        x=list(n),y=list(p),marker=dict(color=list(c),line=dict(color='white',width=1)),
-        text=[f"{v:.0f}%" for v in p],textposition='outside',
-        textfont=dict(size=10,family='Inter'),
+        x=list(n), y=list(p),
+        marker=dict(color=list(c), line=dict(color='white', width=1)),
+        text=[f"{v:.0f}%" for v in p],
+        textposition='outside',
+        textfont=dict(size=11, family=FONT_FAMILY, color=TEXT_COLOR),
         hovertemplate='<b>%{x}</b><br>Aprobación: %{y:.1f}%<extra></extra>',
     ))
     promedio = sum(porcs)/len(porcs)
-    fig.add_hline(y=promedio,line_dash='dot',line_color='#dc3545',
-        annotation_text=f'Promedio: {promedio:.1f}%',annotation_position='top right',
-        annotation_font=dict(size=11,color='#dc3545',family='Inter'))
-    fig.update_layout(margin=dict(t=30,b=60,l=10,r=10),height=320,
-        paper_bgcolor='rgba(0,0,0,0)',plot_bgcolor='rgba(0,0,0,0)',
-        xaxis=dict(tickangle=-35,tickfont=dict(size=10,family='Inter'),showgrid=False),
-        yaxis=dict(showgrid=True,gridcolor='#f0f0f0',range=[0,110],
-                   ticksuffix='%',tickfont=dict(size=10,family='Inter')),bargap=.25)
+    fig.add_hline(
+        y=promedio, line_dash='dot', line_color='#dc3545',
+        annotation_text=f'Promedio: {promedio:.1f}%',
+        annotation_position='top right',
+        annotation_font=dict(size=11, color='#dc3545', family=FONT_FAMILY),
+    )
+    fig.update_layout(
+        margin=dict(t=40, b=80, l=10, r=20), height=360,
+        paper_bgcolor='#ffffff', plot_bgcolor='#ffffff',
+        font=dict(color=TEXT_COLOR, family=FONT_FAMILY),
+        xaxis=dict(
+            tickangle=-40,
+            tickfont=dict(size=10, family=FONT_FAMILY, color=TEXT_COLOR),
+            showgrid=False,
+        ),
+        yaxis=dict(
+            showgrid=True, gridcolor='#eeeeee',
+            range=[0, 115],
+            ticksuffix='%',
+            tickfont=dict(size=10, family=FONT_FAMILY, color=TEXT_COLOR),
+        ),
+        bargap=.25,
+    )
     return fig
 
 # ── Dashboard individual ─────────────────────────────────────
