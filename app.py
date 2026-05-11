@@ -88,6 +88,37 @@ input, select, textarea { color: #1a1a1a !important; }
 
 /* ══ DIVISOR ══ */
 .sena-divider { border:none; border-top:2px solid #00582E; margin:24px 0 20px; opacity:.15; }
+
+/* ══ BOTÓN COLAPSAR SIDEBAR (flecha) ══ */
+[data-testid="collapsedControl"],
+button[kind="header"],
+[data-testid="stSidebarCollapsedControl"] {
+    background-color: #003820 !important;
+    border-radius: 0 8px 8px 0 !important;
+    border: none !important;
+}
+[data-testid="collapsedControl"] svg,
+[data-testid="stSidebarCollapsedControl"] svg,
+button[kind="header"] svg {
+    fill: #ffffff !important;
+    color: #ffffff !important;
+}
+/* Botón expandir/colapsar dentro del sidebar */
+[data-testid="stSidebar"] button {
+    background: rgba(255,255,255,0.15) !important;
+    border-radius: 8px !important;
+}
+[data-testid="stSidebar"] button svg {
+    fill: #ffffff !important;
+    color: #ffffff !important;
+}
+/* Garantizar que la flecha ">>" sea visible */
+[data-testid="stSidebarCollapseButton"] {
+    background: #003820 !important;
+}
+[data-testid="stSidebarCollapseButton"] svg {
+    fill: #ffffff !important;
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -349,7 +380,20 @@ def mostrar_dashboard(aprendiz, res, todos_aprendices, todos_resultados):
 # SIDEBAR
 # ══════════════════════════════════════════════════════════════
 with st.sidebar:
-    st.image("https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Sena_colombia_logo.svg/200px-Sena_colombia_logo.svg.png", width=120)
+    st.markdown("""
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="48" height="48" rx="10" fill="#00A550"/>
+        <text x="24" y="32" text-anchor="middle"
+              font-family="Inter,Arial,sans-serif"
+              font-size="18" font-weight="800" fill="#ffffff">SENA</text>
+      </svg>
+      <div>
+        <div style="color:#ffffff;font-weight:700;font-size:15px;line-height:1.2;">SENA</div>
+        <div style="color:rgba(255,255,255,0.75);font-size:11px;">Sistema Zajuna</div>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
     st.markdown("## 📂 Cargar archivo")
     archivo = st.file_uploader("Excel de Zajuna", type=["xlsx"], label_visibility="collapsed")
     if archivo: st.success("✅ Archivo cargado")
