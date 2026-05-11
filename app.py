@@ -25,8 +25,13 @@ html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
 .main h1, .main h2, .main h3, .main h4, .main h5 {
     color: #1a1a1a !important;
 }
-.main p, .main span, .main label, .main small, .main li {
-    color: #1a1a1a !important;
+/* Texto general — sin !important en span para no pisar colores inline */
+.main p, .main label, .main small, .main li {
+    color: #1a1a1a;
+}
+/* Solo los p y li de markdown sin estilo propio */
+.main .stMarkdown > div > p {
+    color: #1a1a1a;
 }
 /* Tabs */
 [data-testid="stTabs"] [data-baseweb="tab"] {
@@ -336,10 +341,15 @@ def mostrar_dashboard(aprendiz, res, todos_aprendices, todos_resultados):
             if ev['estado']=='No Aprobada':   ico,col,bg='❌','#721c24','#f8d7da'
             elif ev['estado']=='Sin Calificar': ico,col,bg='⏳','#856404','#fff3cd'
             else:                               ico,col,bg='📭','#555','#f1f3f5'
-            st.markdown(f'<div class="ev-row" style="background:{bg}44;">'
-                        f'<span style="flex:1;">{ico} {ev["nombre"][:75]}</span>'
-                        f'<span style="color:{col};font-weight:600;font-size:12px;margin-left:12px;">{ev["estado"]}</span></div>',
-                        unsafe_allow_html=True)
+            st.markdown(
+                f'<div style="display:flex;justify-content:space-between;align-items:center;'
+                f'padding:8px 14px;border-radius:8px;margin-bottom:5px;background:{bg}55;'
+                f'border-left:3px solid {col};">'
+                f'<span style="flex:1;color:#1a1a1a !important;font-size:13px;">{ico}&nbsp;&nbsp;{ev["nombre"][:80]}</span>'
+                f'<span style="color:{col} !important;font-weight:700;font-size:12px;'
+                f'white-space:nowrap;margin-left:14px;background:{bg};padding:2px 10px;'
+                f'border-radius:99px;">{ev["estado"]}</span></div>',
+                unsafe_allow_html=True)
     else:
         st.success("🎉 ¡Todas las evidencias están aprobadas!")
 
