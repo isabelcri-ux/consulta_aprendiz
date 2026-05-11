@@ -25,9 +25,18 @@ html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
 .main h1, .main h2, .main h3, .main h4, .main h5 {
     color: #1a1a1a !important;
 }
-/* Texto general — sin !important en span para no pisar colores inline */
+/* Texto general */
 .main p, .main label, .main small, .main li {
     color: #1a1a1a;
+}
+/* Proteger strong y nombres */
+.main strong, .main b {
+    color: #1a1a1a !important;
+}
+/* Evitar que el tema oscuro pinte texto blanco en área principal */
+[data-testid="stAppViewContainer"] strong,
+[data-testid="stAppViewContainer"] b {
+    color: #1a1a1a !important;
 }
 /* Solo los p y li de markdown sin estilo propio */
 .main .stMarkdown > div > p {
@@ -285,7 +294,7 @@ def mostrar_dashboard(aprendiz, res, todos_aprendices, todos_resultados):
     <div class="dash-header">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
         <div>
-          <div class="dash-name">🎓 {aprendiz['nombre']}</div>
+          <div style="font-size:24px;font-weight:700;color:#ffffff;margin-bottom:4px;">🎓 {aprendiz['nombre']}</div>
           <div class="dash-meta">📄 {aprendiz['documento']} &nbsp;·&nbsp; 📧 {aprendiz['correo']} &nbsp;·&nbsp; 🕐 {aprendiz['ultimo_ingreso']}</div>
           <div style="margin-top:12px;"><span class="badge {res['badge_class']}">{res['clasificacion']}</span></div>
         </div>
@@ -466,7 +475,28 @@ with tab1:
         if fe!="Todos" and fe not in r['clasificacion']: continue
         n+=1
         pct=r['porcentaje']
-        st.markdown(f'<div class="aprendiz-card"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><div><strong style="font-size:15px;">{a["nombre"]}</strong><span style="color:#6c757d;font-size:12px;margin-left:10px;">Doc: {a["documento"]} · {a["ultimo_ingreso"]}</span></div><span class="badge {r["badge_class"]}">{r["clasificacion"]}</span></div><div style="display:flex;gap:20px;font-size:12px;color:#555;margin-bottom:8px;"><span>✅ <b>{r["aprobadas"]}</b></span><span>❌ <b>{r["no_aprobadas"]}</b></span><span>⏳ <b>{r["sin_calificar"]}</b></span><span>📭 <b>{r["sin_entrega"]}</b></span></div><div class="prog-bar-wrap"><div class="prog-bar-fill" style="width:{pct:.1f}%;background:{r["color_bar"]};"></div></div><small style="color:#6c757d;">{pct:.1f}%</small></div>', unsafe_allow_html=True)
+        st.markdown(f'''
+        <div style="background:white;border-radius:12px;padding:16px 20px;
+                    border:1px solid #e0e0e0;margin-bottom:10px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+            <div>
+              <strong style="font-size:15px;color:#1a1a1a;font-weight:700;">{a["nombre"]}</strong><br>
+              <span style="color:#555555;font-size:12px;">Doc: {a["documento"]} &nbsp;·&nbsp; {a["ultimo_ingreso"]}</span>
+            </div>
+            <span class="badge {r["badge_class"]}">{r["clasificacion"]}</span>
+          </div>
+          <div style="display:flex;gap:20px;font-size:12px;color:#333333;margin-bottom:8px;">
+            <span>✅ <b>{r["aprobadas"]}</b></span>
+            <span>❌ <b>{r["no_aprobadas"]}</b></span>
+            <span>⏳ <b>{r["sin_calificar"]}</b></span>
+            <span>📭 <b>{r["sin_entrega"]}</b></span>
+          </div>
+          <div style="background:#e9ecef;border-radius:99px;height:10px;overflow:hidden;margin-bottom:4px;">
+            <div style="height:10px;border-radius:99px;width:{pct:.1f}%;background:{r["color_bar"]};"></div>
+          </div>
+          <small style="color:#555555;">{pct:.1f}% de aprobación</small>
+        </div>
+        ''', unsafe_allow_html=True)
     if n==0: st.warning("No se encontraron aprendices.")
 
 # TAB 2
