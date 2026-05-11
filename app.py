@@ -10,6 +10,14 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
+/* ── Forzar modo claro / fondo blanco ── */
+html, body { background-color: #ffffff !important; color: #1a1a1a !important; }
+[data-testid="stAppViewContainer"] { background-color: #ffffff !important; }
+[data-testid="stApp"] { background-color: #ffffff !important; }
+.main { background-color: #ffffff !important; }
+.block-container { background-color: #ffffff !important; }
+[data-testid="stHeader"] { background-color: #ffffff !important; }
+
 /* ── Fuente global ── */
 html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
 
@@ -372,11 +380,31 @@ pendiente=sum(1 for r in resultados if '⏳' in r['clasificacion'])
 st.markdown('<hr class="sena-divider">', unsafe_allow_html=True)
 st.markdown("### 📊 Resumen del grupo")
 c1,c2,c3,c4,c5=st.columns(5)
-c1.metric("👥 Aprendices",len(aprendices))
-c2.metric("✅ Al día",al_dia)
-c3.metric("⏳ Pendientes",pendiente)
-c4.metric("⚠️ En riesgo",en_riesgo)
-c5.metric("🔴 Críticos",critico)
+with c1:
+    st.markdown(f'''<div class="stat-card" style="border-left:4px solid #003820;">
+        <div class="stat-num" style="color:#003820;">{len(aprendices)}</div>
+        <div class="stat-label" style="color:#555;">👥 Total aprendices</div>
+    </div>''', unsafe_allow_html=True)
+with c2:
+    st.markdown(f'''<div class="stat-card" style="border-left:4px solid #28a745;">
+        <div class="stat-num" style="color:#28a745;">{al_dia}</div>
+        <div class="stat-label" style="color:#555;">✅ Al día</div>
+    </div>''', unsafe_allow_html=True)
+with c3:
+    st.markdown(f'''<div class="stat-card" style="border-left:4px solid #ffc107;">
+        <div class="stat-num" style="color:#856404;">{pendiente}</div>
+        <div class="stat-label" style="color:#555;">⏳ Pendientes</div>
+    </div>''', unsafe_allow_html=True)
+with c4:
+    st.markdown(f'''<div class="stat-card" style="border-left:4px solid #dc3545;">
+        <div class="stat-num" style="color:#dc3545;">{en_riesgo}</div>
+        <div class="stat-label" style="color:#555;">⚠️ En riesgo</div>
+    </div>''', unsafe_allow_html=True)
+with c5:
+    st.markdown(f'''<div class="stat-card" style="border-left:4px solid #6f42c1;">
+        <div class="stat-num" style="color:#6f42c1;">{critico}</div>
+        <div class="stat-label" style="color:#555;">🔴 Críticos</div>
+    </div>''', unsafe_allow_html=True)
 color_p='#28a745' if pct_g>=70 else ('#ffc107' if pct_g>=50 else '#dc3545')
 st.markdown(f'<div class="prog-bar-wrap" style="height:10px;margin-top:8px;"><div class="prog-bar-fill" style="width:{pct_g:.1f}%;background:{color_p};"></div></div><small style="color:#6c757d">{pct_g:.1f}% aprobación global · {total_ap:,} de {gran_tot:,} evidencias</small>', unsafe_allow_html=True)
 st.markdown('<hr class="sena-divider">', unsafe_allow_html=True)
