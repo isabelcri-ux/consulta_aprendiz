@@ -43,8 +43,57 @@ body, .main, .block-container,
 [data-testid="stSelectbox"] label,
 [data-testid="stTextInput"] label,
 [data-testid="stMultiSelect"] label,
-[data-testid="stFileUploader"] label { color: #1a1a1a !important; }
-input, select, textarea { color: #1a1a1a !important; }
+[data-testid="stFileUploader"] label {
+    color: #1a1a1a !important;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+}
+
+/* Selectbox: fondo blanco, texto oscuro */
+[data-testid="stSelectbox"] div[data-baseweb="select"] > div,
+[data-testid="stSelectbox"] div[data-baseweb="select"] span,
+[data-testid="stSelectbox"] div[role="listbox"],
+[data-testid="stSelectbox"] div[role="option"] {
+    background-color: #ffffff !important;
+    color: #1a1a1a !important;
+    border-color: #d0d0d0 !important;
+}
+[data-testid="stSelectbox"] svg { fill: #1a1a1a !important; }
+
+/* TextInput: fondo blanco, texto oscuro */
+[data-testid="stTextInput"] input {
+    background-color: #ffffff !important;
+    color: #1a1a1a !important;
+    border-color: #d0d0d0 !important;
+    border-radius: 8px !important;
+}
+[data-testid="stTextInput"] input::placeholder { color: #999999 !important; }
+
+/* MultiSelect */
+[data-testid="stMultiSelect"] div[data-baseweb="select"] > div {
+    background-color: #ffffff !important;
+    color: #1a1a1a !important;
+    border-color: #d0d0d0 !important;
+}
+[data-testid="stMultiSelect"] span { color: #1a1a1a !important; }
+[data-testid="stMultiSelect"] svg  { fill: #1a1a1a !important; }
+
+/* Dropdown flotante de opciones */
+[data-baseweb="popover"] ul,
+[data-baseweb="popover"] li,
+[data-baseweb="menu"]    li {
+    background-color: #ffffff !important;
+    color: #1a1a1a !important;
+}
+[data-baseweb="popover"] li:hover,
+[data-baseweb="menu"]    li:hover {
+    background-color: #f0f7f0 !important;
+}
+
+input, select, textarea {
+    color: #1a1a1a !important;
+    background-color: #ffffff !important;
+}
 
 /* ══ MÉTRICAS (no usadas pero por si acaso) ══ */
 [data-testid="stMetricValue"] { color: #1a1a1a !important; font-weight: 700 !important; }
