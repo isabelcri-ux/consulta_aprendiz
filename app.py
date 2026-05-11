@@ -51,7 +51,11 @@ input, select, textarea { color: #1a1a1a !important; }
 [data-testid="stMetricLabel"] { color: #555555 !important; }
 
 /* ══ ALERTAS ══ */
-[data-testid="stAlert"] * { color: #1a1a1a !important; }
+/* Alertas en área principal: texto oscuro */
+[data-testid="stAlert"]:not([data-testid="stSidebar"] *) * { color: #1a1a1a !important; }
+/* Alertas dentro del sidebar: texto blanco */
+[data-testid="stSidebar"] [data-testid="stAlert"] * { color: #ffffff !important; }
+[data-testid="stSidebar"] [data-testid="stAlert"] { background: rgba(255,255,255,0.15) !important; border-color: rgba(255,255,255,0.3) !important; }
 
 /* ══ TARJETA REPORTE GENERAL ══ */
 .aprendiz-card {
@@ -396,7 +400,18 @@ with st.sidebar:
     """, unsafe_allow_html=True)
     st.markdown("## 📂 Cargar archivo")
     archivo = st.file_uploader("Excel de Zajuna", type=["xlsx"], label_visibility="collapsed")
-    if archivo: st.success("✅ Archivo cargado")
+    if archivo:
+        st.markdown("""
+        <div style="background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.4);
+                    border-radius:10px;padding:10px 14px;margin-top:4px;
+                    display:flex;align-items:center;gap:10px;">
+          <span style="font-size:20px;">✅</span>
+          <div>
+            <div style="color:#ffffff;font-weight:700;font-size:13px;">Archivo cargado</div>
+            <div style="color:rgba(255,255,255,0.80);font-size:11px;">Listo para procesar</div>
+          </div>
+        </div>
+        """, unsafe_allow_html=True)
     st.markdown("---")
     st.markdown("<small style='opacity:.6'>Sistema Zajuna · SENA<br>Python · Streamlit · Plotly<br>Instructora: Isabel Cristina Vivas</small>", unsafe_allow_html=True)
 
