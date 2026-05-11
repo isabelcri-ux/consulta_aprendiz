@@ -10,150 +10,84 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* ── Forzar modo claro / fondo blanco ── */
-html, body { background-color: #ffffff !important; color: #1a1a1a !important; }
-[data-testid="stAppViewContainer"] { background-color: #ffffff !important; }
-[data-testid="stApp"] { background-color: #ffffff !important; }
-.main { background-color: #ffffff !important; }
+/* ══ BASE: fondo blanco, texto negro, modo claro forzado ══ */
+html, body,
+[data-testid="stApp"],
+[data-testid="stAppViewContainer"],
+[data-testid="stHeader"],
+.main,
 .block-container { background-color: #ffffff !important; }
-[data-testid="stHeader"] { background-color: #ffffff !important; }
 
-/* ── Fuente global + texto oscuro en área principal ── */
-html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
-
-/* Títulos y texto general en el área principal */
-.main h1, .main h2, .main h3, .main h4, .main h5 {
-    color: #1a1a1a !important;
-}
-/* Texto general */
-.main p, .main label, .main small, .main li {
+/* Todo el texto del área principal en oscuro por defecto */
+body, .main, .block-container,
+.main *, .block-container * {
+    font-family: 'Inter', sans-serif;
     color: #1a1a1a;
 }
-/* Proteger strong y nombres */
-.main strong, .main b {
-    color: #1a1a1a !important;
-}
-/* Evitar que el tema oscuro pinte texto blanco en área principal */
-[data-testid="stAppViewContainer"] strong,
-[data-testid="stAppViewContainer"] b {
-    color: #1a1a1a !important;
-}
-/* Solo los p y li de markdown sin estilo propio */
-.main .stMarkdown > div > p {
-    color: #1a1a1a;
-}
-/* Tabs */
-[data-testid="stTabs"] [data-baseweb="tab"] {
-    color: #1a1a1a !important;
-}
-[data-testid="stTabs"] [aria-selected="true"] {
-    color: #003820 !important;
-    font-weight: 600 !important;
-}
-/* Selectbox y text_input labels */
-[data-testid="stSelectbox"] label,
-[data-testid="stTextInput"] label,
-[data-testid="stMultiSelect"] label {
-    color: #1a1a1a !important;
-}
-/* Markdown general fuera del sidebar */
-.main .stMarkdown p,
-.main .stMarkdown h1,
-.main .stMarkdown h2,
-.main .stMarkdown h3,
-.main .stMarkdown span {
-    color: #1a1a1a !important;
-}
-/* Info y warning boxes */
-[data-testid="stAlert"] p { color: #1a1a1a !important; }
 
-/* ── Sidebar: fondo verde, texto blanco SOLO dentro del sidebar ── */
-[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #003820 0%, #00582E 100%);
-}
-[data-testid="stSidebar"] p,
-[data-testid="stSidebar"] span,
-[data-testid="stSidebar"] label,
-[data-testid="stSidebar"] div,
-[data-testid="stSidebar"] h1,
-[data-testid="stSidebar"] h2,
-[data-testid="stSidebar"] h3,
-[data-testid="stSidebar"] small,
-[data-testid="stSidebar"] .stMarkdown,
-[data-testid="stSidebar"] .stFileUploader,
-[data-testid="stSidebar"] .uploadedFileName {
+/* ══ SIDEBAR: verde oscuro con texto blanco ══ */
+[data-testid="stSidebar"],
+[data-testid="stSidebar"] * {
+    background-color: transparent;
     color: #ffffff !important;
 }
-
-/* ── Métricas: fondo claro, texto oscuro explícito ── */
-[data-testid="stMetric"] {
-    background: #f8fafb;
-    border-radius: 12px;
-    padding: 16px 20px;
-    border: 1px solid #e8edf0;
-}
-[data-testid="stMetricValue"] {
-    font-weight: 700 !important;
-    font-size: 2rem !important;
-    color: #1a1a1a !important;
-}
-[data-testid="stMetricLabel"] {
-    color: #555555 !important;
-}
-[data-testid="stMetricDelta"] {
-    color: #555555 !important;
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #003820 0%, #00582E 100%) !important;
 }
 
-/* ── Contenido principal: texto oscuro ── */
-.main .block-container p,
-.main .block-container span,
-.main .block-container label,
-.main .block-container small {
-    color: #1a1a1a;
-}
+/* ══ TABS ══ */
+[data-testid="stTabs"] button { color: #333333 !important; font-weight: 500; }
+[data-testid="stTabs"] button[aria-selected="true"] { color: #003820 !important; font-weight: 700; }
 
-/* ── Tarjeta de aprendiz en reporte ── */
+/* ══ INPUTS ══ */
+[data-testid="stSelectbox"] label,
+[data-testid="stTextInput"] label,
+[data-testid="stMultiSelect"] label,
+[data-testid="stFileUploader"] label { color: #1a1a1a !important; }
+input, select, textarea { color: #1a1a1a !important; }
+
+/* ══ MÉTRICAS (no usadas pero por si acaso) ══ */
+[data-testid="stMetricValue"] { color: #1a1a1a !important; font-weight: 700 !important; }
+[data-testid="stMetricLabel"] { color: #555555 !important; }
+
+/* ══ ALERTAS ══ */
+[data-testid="stAlert"] * { color: #1a1a1a !important; }
+
+/* ══ TARJETA REPORTE GENERAL ══ */
 .aprendiz-card {
-    background: white;
+    background: #ffffff;
     border-radius: 12px;
     padding: 16px 20px;
-    border: 1px solid #e8edf0;
+    border: 1px solid #e0e0e0;
     margin-bottom: 10px;
 }
 
-/* ── Dashboard header ── */
-.dash-header {
-    background: linear-gradient(135deg, #003820 0%, #00733A 100%);
-    border-radius: 16px;
-    padding: 28px 32px;
-    margin-bottom: 20px;
-}
-.dash-name      { font-size:24px; font-weight:700; color:white !important; margin-bottom:4px; }
-.dash-meta      { font-size:13px; opacity:.80; color:white !important; }
-.dash-pct       { font-size:52px; font-weight:800; line-height:1; color:white !important; }
-.dash-pct-label { font-size:13px; opacity:.80; color:white !important; margin-top:4px; }
+/* ══ DASHBOARD HEADER (fondo verde → texto blanco) ══ */
+.dash-header { background: linear-gradient(135deg,#003820 0%,#00733A 100%); border-radius:16px; padding:28px 32px; margin-bottom:20px; }
+.dash-header * { color: #ffffff !important; }
+.dash-name  { font-size:24px; font-weight:700; }
+.dash-meta  { font-size:13px; opacity:.85; }
+.dash-pct   { font-size:52px; font-weight:800; line-height:1; }
+.dash-pct-label { font-size:13px; opacity:.85; margin-top:4px; }
 
-/* ── Stat cards del dashboard ── */
-.stat-card  { background:white; border-radius:12px; padding:18px 20px; border:1px solid #e8edf0; text-align:center; }
-.stat-num   { font-size:2.2rem; font-weight:800; line-height:1; }
-.stat-label { font-size:12px; color:#6c757d !important; margin-top:4px; }
+/* ══ STAT CARDS DEL DASHBOARD ══ */
+.stat-card { background:#ffffff; border-radius:12px; padding:18px 20px; border:1px solid #e0e0e0; text-align:center; }
+.stat-num  { font-size:2.2rem; font-weight:800; line-height:1; }
+.stat-label { font-size:12px; color:#555555 !important; margin-top:4px; }
 
-/* ── Badges ── */
+/* ══ BADGES ══ */
 .badge         { display:inline-block; padding:5px 14px; border-radius:99px; font-size:13px; font-weight:600; }
 .badge-ok      { background:#d4edda; color:#155724 !important; }
 .badge-pend    { background:#fff3cd; color:#856404 !important; }
 .badge-riesgo  { background:#f8d7da; color:#721c24 !important; }
 .badge-critico { background:#e2d9f3; color:#432874 !important; }
 
-/* ── Barras de progreso ── */
+/* ══ BARRAS DE PROGRESO ══ */
 .prog-bar-wrap { background:#e9ecef; border-radius:99px; height:10px; width:100%; overflow:hidden; margin-bottom:4px; }
 .prog-bar-fill { height:10px; border-radius:99px; }
 
-/* ── Filas de evidencias ── */
-.ev-row { display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-radius:8px; margin-bottom:4px; font-size:12.5px; }
-
-/* ── Divisor ── */
-.sena-divider { border:none; border-top:2px solid #00582E; margin:24px 0 20px; opacity:.12; }
+/* ══ DIVISOR ══ */
+.sena-divider { border:none; border-top:2px solid #00582E; margin:24px 0 20px; opacity:.15; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -350,14 +284,17 @@ def mostrar_dashboard(aprendiz, res, todos_aprendices, todos_resultados):
             if ev['estado']=='No Aprobada':   ico,col,bg='❌','#721c24','#f8d7da'
             elif ev['estado']=='Sin Calificar': ico,col,bg='⏳','#856404','#fff3cd'
             else:                               ico,col,bg='📭','#555','#f1f3f5'
+            nombre_ev = ev["nombre"][:80]
+            estado_ev = ev["estado"]
             st.markdown(
-                f'<div style="display:flex;justify-content:space-between;align-items:center;'
-                f'padding:8px 14px;border-radius:8px;margin-bottom:5px;background:{bg}55;'
-                f'border-left:3px solid {col};">'
-                f'<span style="flex:1;color:#1a1a1a !important;font-size:13px;">{ico}&nbsp;&nbsp;{ev["nombre"][:80]}</span>'
-                f'<span style="color:{col} !important;font-weight:700;font-size:12px;'
-                f'white-space:nowrap;margin-left:14px;background:{bg};padding:2px 10px;'
-                f'border-radius:99px;">{ev["estado"]}</span></div>',
+                f'''<div style="display:flex;justify-content:space-between;align-items:center;
+                         padding:10px 14px;border-radius:8px;margin-bottom:5px;
+                         background-color:{bg};border-left:4px solid {col};">
+                  <span style="flex:1;font-size:13px;font-weight:500;
+                               color:#1a1a1a;">{ico}&nbsp;&nbsp;{nombre_ev}</span>
+                  <span style="font-size:12px;font-weight:700;color:{col};
+                               white-space:nowrap;margin-left:14px;">{estado_ev}</span>
+                </div>''',
                 unsafe_allow_html=True)
     else:
         st.success("🎉 ¡Todas las evidencias están aprobadas!")
